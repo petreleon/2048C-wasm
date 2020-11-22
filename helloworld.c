@@ -5,8 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <emscripten.h>
-#include <time.h> 
-#include <stdbool.h>
+#include <time.h>
 
 int memory[4][4];
 int score = 0;
