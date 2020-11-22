@@ -51,7 +51,7 @@ int moveInit(int horizontal, int vertical){
   int moved = 0;
   if(horizontal){
     if (horizontal == -1){
-      for(int collumn = 0; collumn < 3; collumn ++){
+      for(int collumn = 0; collumn < size - 1; collumn ++){
         for(int line = 0; line < size; line ++){
           int toCell = line*size + collumn;
           if (memory[toCell/size][toCell%size] == 0){
@@ -86,7 +86,7 @@ int moveInit(int horizontal, int vertical){
       }
     }
     if (vertical == 1){
-      for(int line = 3; line >= 0; line --){
+      for(int line = size - 1; line >= 0; line --){
         for(int collumn = 3; collumn >= 0; collumn --){
           int toCell = line*size + collumn;
           if (memory[toCell/size][toCell%size] == 0){
