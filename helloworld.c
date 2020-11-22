@@ -41,7 +41,10 @@ int moveInMemoryBypassingEmptyCells(int from,  int to){
   ) {
     from -= difference;
   }
-  return moveInMemory(from, to);
+  if(from >= 0 && from < size * size){
+    return moveInMemory(from, to);
+  }
+  return 0;
 }
 
 int moveInit(int horizontal, int vertical){
