@@ -9,6 +9,9 @@
 const size = 4;
 int memory[size][size];
 int score = 0;
+const int HorizontalUnit = 1;
+const int VerticalUnit = size;
+
 
 typedef struct {
   int line;
@@ -115,16 +118,16 @@ int moveCommand(int reverseMovement, Coordinate coordinate, int (*verify)(Coordi
 int moveInit(int horizontal, int vertical){
   int moved = 0;
   if (horizontal == -1){
-    moved = moveCommand(1, firstCell, &verifyLeft, &increaseLeft);
+    moved = moveCommand(HorizontalUnit, firstCell, &verifyLeft, &increaseLeft);
   }
   if (horizontal == 1){
-    moved = moveCommand(-1, lastCell, &verifyRight, &increaseRight);
+    moved = moveCommand(-HorizontalUnit, lastCell, &verifyRight, &increaseRight);
   }
   if (vertical == -1){
-    moved = moveCommand(size, firstCell, &verifyUp, &increaseUp);
+    moved = moveCommand(VerticalUnit, firstCell, &verifyUp, &increaseUp);
   }
   if (vertical == 1){
-    moved = moveCommand(-size, lastCell, &verifyDown, &increaseDown);
+    moved = moveCommand(-VerticalUnit, lastCell, &verifyDown, &increaseDown);
   }
   return moved;
 }
