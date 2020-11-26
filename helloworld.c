@@ -10,6 +10,14 @@ const size = 4;
 int memory[size][size];
 int score = 0;
 
+typedef struct {
+  int line;
+  int collumn;
+} Coordinate;
+
+Coordinate firstCell = {0, 0};
+Coordinate lastCell = {size - 1, size - 1};
+
 int moveInMemory(int from, int to){
   int* _from = &memory[from/size][from%size];
   int* _to = &memory[to/size][to%size];
@@ -47,53 +55,94 @@ int moveInMemoryBypassingEmptyCells(int from,  int to){
   return 0;
 }
 
+int verifyLeft(Coordinate coordinate) {
+  return coordinate.collumn < size - 1;
+}
+
+void increaseLeft(Coordinate *coordinate) {
+  coordinate->line += 1;
+  if(coordinate->line == size) {
+    coordinate->line = 0;
+    coordinate->collumn += 1;
+  }
+}
+
+int verifyRight(Coordinate coordinate) {
+  return coordinate.collumn >= 1;
+}
+
+void increaseRight(Coordinate *coordinate) {
+  coordinate->line -= 1;
+  if(coordinate->line == -1) {
+    coordinate->line = size - 1;
+    coordinate->collumn -= 1;
+  }
+}
+
+int verifyUp(Coordinate coordinate) {
+  return coordinate.line < size - 1;
+}
+
+void increaseUp(Coordinate *coordinate) {
+  coordinate->collumn += 1;
+  if(coordinate->collumn == size) {
+    coordinate->collumn = 0;
+    coordinate->line += 1;
+  }
+}
+
+int verifyDown(Coordinate coordinate) {
+  return coordinate.line >= 1;
+}
+
+void increaseDown(Coordinate *coordinate) {
+  coordinate->collumn -= 1;
+  if(coordinate->collumn == -1) {
+    coordinate->collumn = size - 1;
+    coordinate->line -= 1;
+  }
+}
+
 int moveInit(int horizontal, int vertical){
   int moved = 0;
   if(horizontal){
     if (horizontal == -1){
-      for(int collumn = 0; collumn < size - 1; collumn ++){
-        for(int line = 0; line < size; line ++){
-          int toCell = line*size + collumn;
-          if (memory[toCell/size][toCell%size] == 0){
-            moved |= moveInMemoryBypassingEmptyCells(toCell+1, toCell);
-          }
+      for(Coordinate coordinate = firstCell; verifyLeft(coordinate); increaseLeft(&coordinate)){
+        int toCell = coordinate.line*size + coordinate.collumn;
+        if (memory[toCell/size][toCell%size] == 0){
           moved |= moveInMemoryBypassingEmptyCells(toCell+1, toCell);
         }
+        moved |= moveInMemoryBypassingEmptyCells(toCell+1, toCell);
       }
     }
     if (horizontal == 1){
-      for(int collumn = 3; collumn >= 1; collumn --){
-        for(int line = 3; line >= 0; line --){
-          int toCell = line*size + collumn;
-          if (memory[toCell/size][toCell%size] == 0){
-            moved |= moveInMemoryBypassingEmptyCells(toCell-1, toCell);;
-          }
-          moved |= moveInMemoryBypassingEmptyCells(toCell-1, toCell);
+      for(Coordinate coordinate = lastCell; verifyRight(coordinate); increaseRight(&coordinate)){
+        int toCell = coordinate.line*size + coordinate.collumn;
+        if (memory[toCell/size][toCell%size] == 0){
+          moved |= moveInMemoryBypassingEmptyCells(toCell-1, toCell);;
         }
+        moved |= moveInMemoryBypassingEmptyCells(toCell-1, toCell);
+      
       }
     }
   }
   if(vertical){
     if (vertical == -1){
-      for(int line = 0; line < size; line ++){
-        for(int collumn = 0; collumn < size; collumn ++){
-          int toCell = line*size + collumn;
+      for(Coordinate coordinate = firstCell; verifyUp(coordinate); increaseUp(&coordinate)){
+          int toCell = coordinate.line*size + coordinate.collumn;
           if (memory[toCell/size][toCell%size] == 0){
             moved |= moveInMemoryBypassingEmptyCells(toCell+size, toCell);
           }
           moved |= moveInMemoryBypassingEmptyCells(toCell+size, toCell);
-        }
       }
     }
     if (vertical == 1){
-      for(int line = size - 1; line >= 0; line --){
-        for(int collumn = 3; collumn >= 0; collumn --){
-          int toCell = line*size + collumn;
-          if (memory[toCell/size][toCell%size] == 0){
-            moved |= moveInMemoryBypassingEmptyCells(toCell-size, toCell);
-          }
+      for(Coordinate coordinate = lastCell; verifyDown(coordinate); increaseDown(&coordinate)){
+        int toCell = coordinate.line*size + coordinate.collumn;
+        if (memory[toCell/size][toCell%size] == 0){
           moved |= moveInMemoryBypassingEmptyCells(toCell-size, toCell);
         }
+        moved |= moveInMemoryBypassingEmptyCells(toCell-size, toCell);
       }
     }
   }
