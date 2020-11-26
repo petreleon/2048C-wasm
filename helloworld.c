@@ -49,10 +49,7 @@ int moveInMemoryBypassingEmptyCells(int from,  int to){
   ) {
     from -= difference;
   }
-  if(from >= 0 && from < size * size){
-    return moveInMemory(from, to);
-  }
-  return 0;
+  return moveInMemory(from, to);
 }
 
 int verifyLeft(Coordinate coordinate) {
