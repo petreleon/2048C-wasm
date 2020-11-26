@@ -117,21 +117,17 @@ int moveCommand(int reverseMovement, Coordinate coordinate, int (*verify)(Coordi
 
 int moveInit(int horizontal, int vertical){
   int moved = 0;
-  if(horizontal){
-    if (horizontal == -1){
-      moved = moveCommand(1, firstCell, &verifyLeft, &increaseLeft);
-    }
-    if (horizontal == 1){
-      moved = moveCommand(-1, lastCell, &verifyRight, &increaseRight);
-    }
+  if (horizontal == -1){
+    moved = moveCommand(1, firstCell, &verifyLeft, &increaseLeft);
   }
-  if(vertical){
-    if (vertical == -1){
-      moved = moveCommand(size, firstCell, &verifyUp, &increaseUp);
-    }
-    if (vertical == 1){
-      moved = moveCommand(-size, lastCell, &verifyDown, &increaseDown);
-    }
+  if (horizontal == 1){
+    moved = moveCommand(-1, lastCell, &verifyRight, &increaseRight);
+  }
+  if (vertical == -1){
+    moved = moveCommand(size, firstCell, &verifyUp, &increaseUp);
+  }
+  if (vertical == 1){
+    moved = moveCommand(-size, lastCell, &verifyDown, &increaseDown);
   }
   return moved;
 }
